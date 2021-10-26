@@ -26,3 +26,22 @@ async function attachActivitiesToRoutines(routines) {
       throw error;
     }
   }
+
+  async function getActivityById(id){
+    try{
+        const {rows: [activity]} = await client.query(`
+        SELECT * FROM activities
+        WHERE id = $1
+        `, [id]);
+        
+        return activities;
+    }catch (error){
+        throw error;
+    }
+}
+
+module.exports = {
+  getActivityById,
+  attachActivitiesToRoutines,
+  
+};

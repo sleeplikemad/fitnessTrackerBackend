@@ -9,6 +9,7 @@ const {
   getAllActivities,
   createActivity,
   updateActivity,
+  createRoutine,
 } = require("./");
 
 const client = require("./client");
@@ -48,7 +49,7 @@ async function createTables() {
 
   CREATE TABLE routines(
       id SERIAL PRIMARY KEY,
-      "creatorld" INTEGER REFERENCES users(id),
+      "creatorId" INTEGER REFERENCES users(id),
       "isPublic" BOOLEAN DEFAULT false,
       name varchar(255) NOT NULL UNIQUE,
       goal TEXT NOT NULL
@@ -252,7 +253,7 @@ async function rebuildDB() {
     await createTables();
     await createInitialUsers();
     // await createInitialActivities();
-    // await createInitialRoutines();
+    await createInitialRoutines();
     // await createInitialRoutineActivities();
   } catch (error) {
     console.log("Error during rebuildDB");

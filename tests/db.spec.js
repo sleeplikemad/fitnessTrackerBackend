@@ -94,7 +94,7 @@ describe('Database', () => {
   })
   describe('Routines', () => {
     let routineToCreateAndUpdate;
-    describe('getActivityById', () => {
+    xdescribe('getActivityById', () => {
       it('gets activities by their id', async () => {
         const activity = await getActivityById(1);
         expect(activity).toBeTruthy();
@@ -248,7 +248,7 @@ describe('Database', () => {
         }));
       })
     })
-    xdescribe('createRoutine', () => {
+    describe('createRoutine', () => {
       it('creates and returns the new routine', async () => {
         routineToCreateAndUpdate = await createRoutine({creatorId: 2, isPublic: true, name: 'BodyWeight Day', goal: 'Do workouts that can be done from home, no gym or weights required.'});
         const queriedRoutine = await getRoutineById(routineToCreateAndUpdate.id)
