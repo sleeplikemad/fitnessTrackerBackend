@@ -1,4 +1,3 @@
-//haven't started.  just cp'd from activities.js
 async function getRoutineActivityById(id) {
     try {
         const { rows : rActivities } = await client.query(`
@@ -14,9 +13,9 @@ async function getRoutineActivityById(id) {
 
 async function addActivityToRoutine({ routineId, activityId, count, duration }) {
     try {
-        rActivity = await client.query(`
+        const {rows : [rActivity] } = await client.query(`
           INSERT INTO routine_activities("routineId", "activityId", count, duration) 
-          VALUES {$1, $2, $3, $4}
+          VALUES ($1, $2, $3, $4)
           RETURNING *;`, [routineId, activityId, count, duration])
     
         return rActivity
@@ -59,4 +58,12 @@ async function getRoutineActivityByRoutine({id}) {
     } catch(error) {
         next(error)
     }
+}
+
+module.exports = {
+    getRoutineActivityById,
+    addActivityToRoutine,
+    updateRoutineActivity,
+    destroyRoutineActivity,
+    getRoutineActivityByRoutine
 }

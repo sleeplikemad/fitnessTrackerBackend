@@ -48,12 +48,7 @@ async function updateActivity({id, name, description}) {
     }
 }
 
-module.exports = {
-    getActivityById,
-    getAllActivities,
-    createActivity,
-    updateActivity
-}
+
 
 async function attachActivitiesToRoutines(routines) {
     // no side effects
@@ -83,3 +78,11 @@ async function attachActivitiesToRoutines(routines) {
       throw error;
     }
   }
+
+  module.exports = {
+    getActivityById,
+    getAllActivities,
+    createActivity,
+    updateActivity,
+    attachActivitiesToRoutines
+}

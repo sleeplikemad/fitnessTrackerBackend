@@ -22,16 +22,7 @@ async function dropTables() {
     console.error("Error while dropping tables");
     throw error;
   } 
-const {
-  createUser,
-  getUser,
-  getUserById,
-  getUserByUsername,
-  getActivityById,
-  getAllActivities,
-  createActivity,
-  updateActivity,
-} = require("./");
+}
 
 async function createTables() {
   console.log("Starting to build tables...");
@@ -245,7 +236,7 @@ async function rebuildDB() {
     client.connect();
     await dropTables();
     await createTables();
-    // await createInitialUsers();
+     await createInitialUsers();
     // await createInitialActivities();
     // await createInitialRoutines();
     // await createInitialRoutineActivities();
@@ -256,5 +247,5 @@ async function rebuildDB() {
 }
 
 module.exports = {
-  rebuildDB,
+  rebuildDB
 };
