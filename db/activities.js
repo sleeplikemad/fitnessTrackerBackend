@@ -1,4 +1,6 @@
+
 const client = require("./client");
+
 
 async function attachActivitiesToRoutines(routines) {
     // no side effects
@@ -28,6 +30,7 @@ async function attachActivitiesToRoutines(routines) {
       throw error;
     }
   }
+
 
   async function getActivityById(id){
     try{
@@ -79,3 +82,4 @@ module.exports = {
   
 
 };
+

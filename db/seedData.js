@@ -1,5 +1,27 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
 // const { } = require('./');
+const { 
+  client,
+  createUser, 
+  createActivity,
+  createRoutine,
+  getRoutinesWithoutActivities,
+  getAllActivities,
+  addActivityToRoutine
+} = require('./');
+
+async function dropTables() {
+  console.log('Dropping All Tables...');
+  // drop all tables, in the correct order
+  try {
+ 
+    await client.query(`
+      DROP TABLE IF EXISTS routine_activities, routines, activities, users`, ) 
+  }
+  catch (error){
+    console.error("Error while dropping tables");
+    throw error;
+  } 
 const {
   createUser,
   getAllActivities,
@@ -8,6 +30,7 @@ const {
   getRoutinesWithoutActivities,
   addActivityToRoutine
 } = require("./");
+
 
 const client = require("./client");
 
@@ -42,15 +65,23 @@ async function createTables() {
     id SERIAL PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE,
     description TEXT NOT NULL 
-    );
 
-  CREATE TABLE routines(
+    );
+    CREATE TABLE activities (
       id SERIAL PRIMARY KEY,
+      name VARCHAR(255) UNIQUE NOT NULL,
+      description TEXT NOT NULL
+    );
+    CREATE TABLE routines (
+      id SERIAL PRIMARY KEY,
+
       "creatorId" INTEGER REFERENCES users(id),
+
       "isPublic" BOOLEAN DEFAULT false,
-      name varchar(255) NOT NULL UNIQUE,
+      name VARCHAR(255) UNIQUE NOT NULL,
       goal TEXT NOT NULL
     );
+
 
   CREATE TABLE routine_activities(
     id SERIAL PRIMARY KEY,
@@ -60,13 +91,8 @@ async function createTables() {
     count INTEGER,
     UNIQUE ("routineId", "activityId")
   );
-  `);
-    console.log("Finished constructing tables!");
-  } catch (error) {
-    console.error("Error constructing tables!");
 
-    throw error;
-  }
+  `);
 }
 
 
@@ -249,10 +275,12 @@ async function rebuildDB() {
     client.connect();
     await dropTables();
     await createTables();
+
     await createInitialUsers();
     await createInitialActivities();
     await createInitialRoutines();
     await createInitialRoutineActivities();
+
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
