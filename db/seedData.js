@@ -2,14 +2,11 @@
 // const { } = require('./');
 const {
   createUser,
-  getUser,
-  getUserById,
-  getUserByUsername,
-  getActivityById,
   getAllActivities,
   createActivity,
-  updateActivity,
   createRoutine,
+  getRoutinesWithoutActivities,
+  addActivityToRoutine
 } = require("./");
 
 const client = require("./client");
@@ -19,7 +16,7 @@ async function dropTables() {
     console.log("Dropping All Tables...");
     // drop all tables, in the correct order
     client.query(`
-  DROP TABLE IF EXISTS routineActivities;
+  DROP TABLE IF EXISTS routine_activities;
   DROP TABLE IF EXISTS routines;
   DROP TABLE IF EXISTS activities;
   DROP TABLE IF EXISTS users;
@@ -44,7 +41,7 @@ async function createTables() {
   CREATE TABLE activities(
     id SERIAL PRIMARY KEY,
     name varchar(255) NOT NULL UNIQUE,
-    despcription TEXT NOT NULL 
+    description TEXT NOT NULL 
     );
 
   CREATE TABLE routines(
@@ -55,12 +52,13 @@ async function createTables() {
       goal TEXT NOT NULL
     );
 
-  CREATE TABLE routineActivities(
+  CREATE TABLE routine_activities(
     id SERIAL PRIMARY KEY,
     "routineId" INTEGER REFERENCES routines(id),
     "activityId" INTEGER REFERENCES activities(id),
     duration INTEGER,
-    count INTEGER
+    count INTEGER,
+    UNIQUE ("routineId", "activityId")
   );
   `);
     console.log("Finished constructing tables!");
@@ -252,9 +250,9 @@ async function rebuildDB() {
     await dropTables();
     await createTables();
     await createInitialUsers();
-    // await createInitialActivities();
+    await createInitialActivities();
     await createInitialRoutines();
-    // await createInitialRoutineActivities();
+    await createInitialRoutineActivities();
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
