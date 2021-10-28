@@ -92,7 +92,7 @@ describe('Database', () => {
       })
     })
   })
-  describe('Routines', () => {
+  xdescribe('Routines', () => {
     let routineToCreateAndUpdate;
     xdescribe('getActivityById', () => {
       it('gets activities by their id', async () => {
