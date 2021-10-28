@@ -1,3 +1,25 @@
+
+const client = require("./client");
+
+async function addActivityToRoutine ({ routineId, activityId, count, duration }){
+    try{
+        const {rows: [routineActivity]} = await client.query(`
+        INSERT INTO routine_activities ("routineId", "activityId", count, duration)
+        VALUES ($1, $2, $3, $4 )
+        ON CONFLICT ("activityId", "routineId") DO NOTHING
+        RETURNING *
+        
+        `, [routineId, activityId, count, duration]);
+
+        return routineActivity;
+
+    }catch (error){
+        throw error;
+    }
+}
+
+
+
 //haven't started.  just cp'd from activities.js
 async function getRoutineActivityById(id) {
     try {
@@ -12,18 +34,7 @@ async function getRoutineActivityById(id) {
     }
 }
 
-async function addActivityToRoutine({ routineId, activityId, count, duration }) {
-    try {
-        rActivity = await client.query(`
-          INSERT INTO routine_activities("routineId", "activityId", count, duration) 
-          VALUES {$1, $2, $3, $4}
-          RETURNING *;`, [routineId, activityId, count, duration])
-    
-        return rActivity
-    } catch(error) {
-        next(error)
-    }
-}
+
 
 async function updateRoutineActivity({id, count, duration}) {
     try {
@@ -59,4 +70,14 @@ async function getRoutineActivityByRoutine({id}) {
     } catch(error) {
         next(error)
     }
+
 }
+
+module.exports = {
+    addActivityToRoutine,
+  getRoutineActivityByRoutine,
+  destroyRoutineActivity,
+  updateRoutineActivity,
+  getRoutineActivityById,
+  
+};
