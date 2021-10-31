@@ -1,27 +1,5 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
 // const { } = require('./');
-const { 
-  client,
-  createUser, 
-  createActivity,
-  createRoutine,
-  getRoutinesWithoutActivities,
-  getAllActivities,
-  addActivityToRoutine
-} = require('./');
-
-async function dropTables() {
-  console.log('Dropping All Tables...');
-  // drop all tables, in the correct order
-  try {
- 
-    await client.query(`
-      DROP TABLE IF EXISTS routine_activities, routines, activities, users`, ) 
-  }
-  catch (error){
-    console.error("Error while dropping tables");
-    throw error;
-  } 
 const {
   createUser,
   getAllActivities,
@@ -30,7 +8,6 @@ const {
   getRoutinesWithoutActivities,
   addActivityToRoutine
 } = require("./");
-
 
 const client = require("./client");
 
@@ -55,47 +32,42 @@ async function createTables() {
   // create all tables, in the correct order
   try {
     await client.query(`
-  CREATE TABLE users(
-    id SERIAL PRIMARY KEY,
-    username varchar(255) UNIQUE NOT NULL,
-    password varchar(255) NOT NULL
-  );
-
-  CREATE TABLE activities(
-    id SERIAL PRIMARY KEY,
-    name varchar(255) NOT NULL UNIQUE,
-    description TEXT NOT NULL 
-
-    );
-    CREATE TABLE activities (
+    CREATE TABLE users(
       id SERIAL PRIMARY KEY,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      description TEXT NOT NULL
+      username varchar(255) UNIQUE NOT NULL,
+      password varchar(255) NOT NULL
     );
-    CREATE TABLE routines (
+
+      CREATE TABLE activities (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        description TEXT NOT NULL
+      );
+      CREATE TABLE routines (
+        id SERIAL PRIMARY KEY,
+
+        "creatorId" INTEGER REFERENCES users(id),
+
+        "isPublic" BOOLEAN DEFAULT false,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        goal TEXT NOT NULL
+      );
+
+
+    CREATE TABLE routine_activities(
       id SERIAL PRIMARY KEY,
-
-      "creatorId" INTEGER REFERENCES users(id),
-
-      "isPublic" BOOLEAN DEFAULT false,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      goal TEXT NOT NULL
+      "routineId" INTEGER REFERENCES routines(id),
+      "activityId" INTEGER REFERENCES activities(id),
+      duration INTEGER,
+      count INTEGER,
+      UNIQUE ("routineId", "activityId")
     );
-
-
-  CREATE TABLE routine_activities(
-    id SERIAL PRIMARY KEY,
-    "routineId" INTEGER REFERENCES routines(id),
-    "activityId" INTEGER REFERENCES activities(id),
-    duration INTEGER,
-    count INTEGER,
-    UNIQUE ("routineId", "activityId")
-  );
-
   `);
+  } catch (error) {
+    console.error("Error while dropping tables");
+    throw error;
+  }
 }
-
-
 
 // DO NOT CHANGE ANYTHING BELOW. This is default seed data, and will help you start testing, before getting to the tests.
 
@@ -275,12 +247,10 @@ async function rebuildDB() {
     client.connect();
     await dropTables();
     await createTables();
-
     await createInitialUsers();
     await createInitialActivities();
     await createInitialRoutines();
     await createInitialRoutineActivities();
-
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
@@ -288,5 +258,5 @@ async function rebuildDB() {
 }
 
 module.exports = {
-  rebuildDB,
-};
+  rebuildDB
+}

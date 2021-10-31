@@ -63,15 +63,9 @@ async function getAllRoutines(){
     }
   }
 
-
-
-
-
-
 module.exports = {
   getRoutineById,
   createRoutine,
   getRoutinesWithoutActivities,
   getAllRoutines,
-  
 };

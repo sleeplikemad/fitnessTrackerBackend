@@ -10,5 +10,9 @@ const apiRouter = express.Router();
 apiRouter.get("/health", (req, res, next)=>{
     res.send({message: "Server is Up"})
 })
+
+
+
+
 // export the api router
 module.exports = apiRouter
