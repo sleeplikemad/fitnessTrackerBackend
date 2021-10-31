@@ -1,10 +1,18 @@
 // create an api router
-const apiRouter = express.Router()
+
+const express = require("express");
+const apiRouter = express.Router();
+
 // attach other routers from files in this api directory (users, activities...)
-usersRouter = require('./users')
-activitiesRouter = require('./activities')
-routinesRouter = require('./routines')
-RARouter = require('./routine_activities')
+// const userRouter = require("./users");
+
+
+apiRouter.get("/health", (req, res, next)=>{
+    res.send({message: "Server is Up"})
+})
+
+
+
 
 // export the api router
-module.exports = apiRouter;
+module.exports = apiRouter

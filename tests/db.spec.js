@@ -11,7 +11,7 @@ const { rebuildDB } = require('../db/seedData');
 const { getUserById, getAllActivities, getActivityById, createActivity, updateActivity, getRoutineById, getAllRoutines, getAllPublicRoutines, getAllRoutinesByUser, getPublicRoutinesByUser, getPublicRoutinesByActivity, createRoutine, updateRoutine, destroyRoutine, createUser, getUser, getRoutineActivitiesByRoutine, addActivityToRoutine, updateRoutineActivity, destroyRoutineActivity } = require('../db');
 const client = require('../db/client');
 
-describe('Database', () => {
+xdescribe('Database', () => {
   beforeAll(async() => {
     await rebuildDB();
   })
@@ -65,7 +65,7 @@ describe('Database', () => {
       })
     })
   })
-  xdescribe('Activities', () => {
+  describe('Activities', () => {
     describe('getAllActivities', () => {
       it('selects and returns an array of all activities', async () => {
         const activities = await getAllActivities();
@@ -83,7 +83,7 @@ describe('Database', () => {
         expect(createdActivity.description).toBe(activityToCreate.description);
       })
     })
-    xdescribe('updateActivity', () => {
+    describe('updateActivity', () => {
       it('Updates name and description of an activity without affecting the ID. Returns the updated Activity.', async () => {
         const [activityToUpdate] = await getAllActivities();
         activityToUpdate.name = 'standing barbell curl';
@@ -92,9 +92,9 @@ describe('Database', () => {
       })
     })
   })
-  describe('Routines', () => {
+  xdescribe('Routines', () => {
     let routineToCreateAndUpdate;
-    describe('getActivityById', () => {
+    xdescribe('getActivityById', () => {
       it('gets activities by their id', async () => {
         const activity = await getActivityById(1);
         expect(activity).toBeTruthy();
@@ -248,7 +248,7 @@ describe('Database', () => {
         }));
       })
     })
-    xdescribe('createRoutine', () => {
+    describe('createRoutine', () => {
       it('creates and returns the new routine', async () => {
         routineToCreateAndUpdate = await createRoutine({creatorId: 2, isPublic: true, name: 'BodyWeight Day', goal: 'Do workouts that can be done from home, no gym or weights required.'});
         const queriedRoutine = await getRoutineById(routineToCreateAndUpdate.id)
@@ -297,7 +297,7 @@ describe('Database', () => {
       })
     })
   })
-  xdescribe('Routine Activities', () => {
+  describe('Routine Activities', () => {
     const routineActivityData = {
       routineId: 4,
       activityId: 8,
@@ -315,7 +315,7 @@ describe('Database', () => {
         expect(routineActivityToCreateAndUpdate.duration).toBe(routineActivityData.duration);
       })
     })
-    xdescribe('updateRoutineActivity({ id, count, duration })', () => {
+    describe('updateRoutineActivity({ id, count, duration })', () => {
       it('Finds the routine with id equal to the passed in id. Updates the count or duration as necessary.', async () => {
         const newRoutineActivityData = {id: routineActivityToCreateAndUpdate.id, count: 15, duration: 150};
         routineActivityToCreateAndUpdate = await updateRoutineActivity(newRoutineActivityData);
@@ -324,7 +324,7 @@ describe('Database', () => {
         expect(routineActivityToCreateAndUpdate.duration).toBe(newRoutineActivityData.duration);
       })
     })
-    xdescribe('destroyRoutineActivity(id)', () => {
+    describe('destroyRoutineActivity(id)', () => {
       it('remove routine_activity from database', async () => {
         const deletedRoutine = await destroyRoutineActivity(routineActivityToCreateAndUpdate.id);
         expect(deletedRoutine.id).toBe(routineActivityToCreateAndUpdate.id);
