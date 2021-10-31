@@ -11,7 +11,7 @@ const { rebuildDB } = require('../db/seedData');
 const { getUserById, getAllActivities, getActivityById, createActivity, updateActivity, getRoutineById, getAllRoutines, getAllPublicRoutines, getAllRoutinesByUser, getPublicRoutinesByUser, getPublicRoutinesByActivity, createRoutine, updateRoutine, destroyRoutine, createUser, getUser, getRoutineActivitiesByRoutine, addActivityToRoutine, updateRoutineActivity, destroyRoutineActivity } = require('../db');
 const client = require('../db/client');
 
-xdescribe('Database', () => {
+describe('Database', () => {
   beforeAll(async() => {
     await rebuildDB();
   })
@@ -31,10 +31,10 @@ xdescribe('Database', () => {
         expect(userToCreateAndUpdate.username).toBe(userCredentials.username);
         expect(queriedUser.username).toBe(userCredentials.username);
       });
-      xit('EXTRA CREDIT: Does not store plaintext password in the database', async () => {
+      it('EXTRA CREDIT: Does not store plaintext password in the database', async () => {
         expect(queriedUser.password).not.toBe(userCredentials.password);
       });
-      xit('EXTRA CREDIT: Hashes the password (salted 10 times) before storing it to the database', async () => {
+      it('EXTRA CREDIT: Hashes the password (salted 10 times) before storing it to the database', async () => {
         const hashedVersion = bcrypt.compareSync(userCredentials.password, queriedUser.password);
         expect(hashedVersion).toBe(true);
       });

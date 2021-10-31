@@ -63,6 +63,8 @@ async function getAllRoutines(){
     }
   }
 
+
+
   async function getPublicRoutinesByUser({ username }) {
     try {
       const { rows: routines } = await client.query(
@@ -80,6 +82,8 @@ async function getAllRoutines(){
     } catch (error) {
       console.error(error);
     }
+  }
+
   
 
 module.exports = {
@@ -87,5 +91,6 @@ module.exports = {
   createRoutine,
   getRoutinesWithoutActivities,
   getAllRoutines,
+  getPublicRoutinesByUser,
 
 };

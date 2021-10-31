@@ -17,3 +17,5 @@ const requireUser = require("./utilities");
 
 // POST, POST /routines/:routineId/activities, PATCH /routine_activities/:routineActivityIdm, DELETE /routine_activities/:routineActivityId 
 //(**) check creatorId === req.user.id userId
+
+

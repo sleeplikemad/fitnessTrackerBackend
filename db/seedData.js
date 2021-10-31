@@ -52,16 +52,6 @@ async function createTables() {
     password varchar(255) NOT NULL
   );
 
-  CREATE TABLE activities(
-    id SERIAL PRIMARY KEY,
-    name varchar(255) NOT NULL UNIQUE,
-    description TEXT NOT NULL 
-
-    );
-
-    CREATE TABLE routines (
-      id SERIAL PRIMARY KEY,
-
 
 
       CREATE TABLE activities (
@@ -86,7 +76,7 @@ async function createTables() {
       "activityId" INTEGER REFERENCES activities(id),
       duration INTEGER,
       count INTEGER,
-      UNIQUE ("routineId", "activityId")
+      UNIQUE("routineId", "activityId")
     );
   `);
 
