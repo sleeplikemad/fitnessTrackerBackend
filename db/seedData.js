@@ -1,27 +1,15 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
 // const { } = require('./');
-const { 
-  client,
-  createUser, 
-  createActivity,
-  createRoutine,
-  getRoutinesWithoutActivities,
-  getAllActivities,
-  addActivityToRoutine
-} = require('./');
+// const { 
+//   client,
+//   createUser, 
+//   createActivity,
+//   createRoutine,
+//   getRoutinesWithoutActivities,
+//   getAllActivities,
+//   addActivityToRoutine
+// } = require('./');
 
-async function dropTables() {
-  console.log('Dropping All Tables...');
-  // drop all tables, in the correct order
-  try {
- 
-    await client.query(`
-      DROP TABLE IF EXISTS routine_activities, routines, activities, users`, ) 
-  }
-  catch (error){
-    console.error("Error while dropping tables");
-    throw error;
-  } 
 const {
   createUser,
   getAllActivities,
@@ -31,8 +19,8 @@ const {
   addActivityToRoutine
 } = require("./");
 
-
 const client = require("./client");
+
 
 async function dropTables() {
   try {
@@ -67,11 +55,7 @@ async function createTables() {
     description TEXT NOT NULL 
 
     );
-    CREATE TABLE activities (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      description TEXT NOT NULL
-    );
+
     CREATE TABLE routines (
       id SERIAL PRIMARY KEY,
 
@@ -93,6 +77,10 @@ async function createTables() {
   );
 
   `);
+} catch (error) {
+  console.error("Error building tables");
+  throw error;
+}
 }
 
 
@@ -289,4 +277,4 @@ async function rebuildDB() {
 
 module.exports = {
   rebuildDB,
-};
+}
