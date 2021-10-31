@@ -1,6 +1,4 @@
-
 const client = require("./client");
-
 
 async function attachActivitiesToRoutines(routines) {
     // no side effects
@@ -31,18 +29,17 @@ async function attachActivitiesToRoutines(routines) {
     }
   }
 
-
-  async function getActivityById(id){
-    try{
-        const {rows: [activity]} = await client.query(`
-        SELECT * FROM activities
-        WHERE id = $1
-        `, [id]);
-        
-        return activities;
-    }catch (error){
-        throw error;
-    }
+async function getActivityById(id){
+  try{
+    const {rows: [activity]} = await client.query(`
+      SELECT * FROM activities
+      WHERE id = $1
+      `, [id]);
+      
+    return activities;
+  }catch (error){
+    throw error;
+  }
 }
 
 async function createActivity({ name, description }){
@@ -72,6 +69,21 @@ async function getAllActivities(){
   }
 }
 
+async function updateActivity({id, name, description}){
+  try{
+    const {rows: [activity]} = await client.query(`
+      UPDATE activities
+      SET name=$2, description=$3
+      WHERE id = $1
+      RETURNING *;
+    `, [id, name, description])
+
+    return activity;
+
+  }catch(error){
+    throw error;
+  }
+}
 
 
 module.exports = {
@@ -79,7 +91,5 @@ module.exports = {
   attachActivitiesToRoutines,
   createActivity,
   getAllActivities,
-  
-
+  updateActivity
 };
-

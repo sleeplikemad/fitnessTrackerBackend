@@ -80,17 +80,12 @@ async function getAllRoutines(){
     } catch (error) {
       console.error(error);
     }
-  }
-
-
-
-
-
+  
 
 module.exports = {
   getRoutineById,
   createRoutine,
   getRoutinesWithoutActivities,
   getAllRoutines,
-  getPublicRoutinesByUser,
+
 };

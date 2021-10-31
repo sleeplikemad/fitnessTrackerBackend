@@ -12,7 +12,6 @@ const {
     getUserById,
 } = require("../db")
 
-
 apiRouter.get('/health', async (req, res)=>{
     try{
       res.send({message:"connected!"})
@@ -50,6 +49,7 @@ apiRouter.use(async (req, res, next) => {
       });
     }
   });
+
 // export the api router
 module.exports = apiRouter
 
