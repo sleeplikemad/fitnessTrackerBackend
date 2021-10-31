@@ -15,23 +15,13 @@ server.use(cors());
 server.use(express.json()) 
 server.use("/api", require("./api"))
 
-server.use((err, req, res, next)=>{
-    res.status(404)
-    if(req.accepts("html")){
-        res.render("404", { url: req.url })
-        return
-    }
-    if(req.accepts("json")){
-        res.join({ error: "Not Found" })
-        return
-    }
-    res.type("txt").send("Not Found")
+server.use("*", (req, res, next) => {
+    res.status(404).send("Not Found")
 })
 
-
-server.use((err, req, res, next)=>{
-    console.error(err.stack)
-    restart.status(500).send("Something broke!")
+server.use((err, req, res, next) => {
+    console.log(err)
+    res.status(500).send(err)
 })
 
 

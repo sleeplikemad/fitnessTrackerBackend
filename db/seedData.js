@@ -1,5 +1,17 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
 // const { } = require('./');
+
+// const { 
+//   client,
+//   createUser, 
+//   createActivity,
+//   createRoutine,
+//   getRoutinesWithoutActivities,
+//   getAllActivities,
+//   addActivityToRoutine
+// } = require('./');
+
+
 const {
   createUser,
   getAllActivities,
@@ -10,6 +22,7 @@ const {
 } = require("./");
 
 const client = require("./client");
+
 
 async function dropTables() {
   try {
@@ -32,11 +45,24 @@ async function createTables() {
   // create all tables, in the correct order
   try {
     await client.query(`
-    CREATE TABLE users(
-      id SERIAL PRIMARY KEY,
-      username varchar(255) UNIQUE NOT NULL,
-      password varchar(255) NOT NULL
+
+  CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    username varchar(255) UNIQUE NOT NULL,
+    password varchar(255) NOT NULL
+  );
+
+  CREATE TABLE activities(
+    id SERIAL PRIMARY KEY,
+    name varchar(255) NOT NULL UNIQUE,
+    description TEXT NOT NULL 
+
     );
+
+    CREATE TABLE routines (
+      id SERIAL PRIMARY KEY,
+
+
 
       CREATE TABLE activities (
         id SERIAL PRIMARY KEY,
@@ -63,10 +89,12 @@ async function createTables() {
       UNIQUE ("routineId", "activityId")
     );
   `);
-  } catch (error) {
-    console.error("Error while dropping tables");
-    throw error;
-  }
+
+} catch (error) {
+  console.error("Error building tables");
+  throw error;
+}
+
 }
 
 // DO NOT CHANGE ANYTHING BELOW. This is default seed data, and will help you start testing, before getting to the tests.
@@ -258,5 +286,7 @@ async function rebuildDB() {
 }
 
 module.exports = {
-  rebuildDB
+
+  rebuildDB,
 }
+
