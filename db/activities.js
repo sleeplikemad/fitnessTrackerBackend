@@ -36,7 +36,7 @@ async function getActivityById(id){
       WHERE id = $1
       `, [id]);
       
-    return activities;
+    return activity;
   }catch (error){
     throw error;
   }
