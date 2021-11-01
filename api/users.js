@@ -61,8 +61,8 @@ userRouter.post("/login", async (req, res, next) => {
       );
       res.send({ user, token, message: "You're logged in" });
     }
-  } catch ({name, message}) {
-    next({name, message});
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -80,8 +80,8 @@ userRouter.get("/:username/routines", async (req, res, next) => {
   try {
     const routines = await getPublicRoutinesByUser({ username });
     res.send(routines);
-  } catch ({ name, message }) {
-    next({ name, message });
+  } catch (error) {
+    next(error);
   }
 });
 
