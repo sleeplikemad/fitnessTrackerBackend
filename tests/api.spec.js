@@ -15,7 +15,7 @@ const { rebuildDB } = require('../db/seedData');
 const { getUserById, createActivity, getPublicRoutinesByUser, getPublicRoutinesByActivity, getAllPublicRoutines, getRoutineById, createRoutine, getRoutineActivityById } = require('../db');
 const client = require('../db/client')
 
-describe('API', () => {
+xdescribe('API', () => {
   let token, registeredUser;
   let routineActivityToCreateAndUpdate = {routineId: 4, activityId: 8, count: 20, duration: 300};
   beforeAll(async() => {

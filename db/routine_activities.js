@@ -62,7 +62,6 @@ async function updateRoutineActivity({ id, count, duration }) {
 
 async function destroyRoutineActivity(id) {
   try {
-      console.log('id:', id)
     const {
         rows: [rActivity],
       } = await client.query(
@@ -78,7 +77,7 @@ async function destroyRoutineActivity(id) {
   }
 }
 
-async function getRoutineActivityByRoutine({ id }) {
+async function getRoutineActivitiesByRoutine( id ) {
   try {
     const { rows: rActivities } = await client.query(
       `
@@ -96,7 +95,7 @@ async function getRoutineActivityByRoutine({ id }) {
 
 module.exports = {
   addActivityToRoutine,
-  getRoutineActivityByRoutine,
+  getRoutineActivitiesByRoutine,
   destroyRoutineActivity,
   updateRoutineActivity,
   getRoutineActivityById,

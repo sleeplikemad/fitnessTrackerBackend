@@ -11,7 +11,7 @@ const { rebuildDB } = require('../db/seedData');
 const { getUserById, getAllActivities, getActivityById, createActivity, updateActivity, getRoutineById, getAllRoutines, getAllPublicRoutines, getAllRoutinesByUser, getPublicRoutinesByUser, getPublicRoutinesByActivity, createRoutine, updateRoutine, destroyRoutine, createUser, getUser, getRoutineActivitiesByRoutine, addActivityToRoutine, updateRoutineActivity, destroyRoutineActivity } = require('../db');
 const client = require('../db/client');
 
-xdescribe('Database', () => {
+describe('Database', () => {
   beforeAll(async() => {
     await rebuildDB();
   })
@@ -92,9 +92,9 @@ xdescribe('Database', () => {
       })
     })
   })
-  xdescribe('Routines', () => {
+  describe('Routines', () => {
     let routineToCreateAndUpdate;
-    xdescribe('getActivityById', () => {
+    describe('getActivityById', () => {
       it('gets activities by their id', async () => {
         const activity = await getActivityById(1);
         expect(activity).toBeTruthy();
@@ -128,7 +128,7 @@ xdescribe('Database', () => {
         }));
       })
     })
-    xdescribe('getAllPublicRoutines', () => {
+    describe('getAllPublicRoutines', () => {
       let routine;
       beforeAll(async() => {
         [routine] = await getAllPublicRoutines();
@@ -255,7 +255,7 @@ xdescribe('Database', () => {
         expect(routineToCreateAndUpdate).toEqual(queriedRoutine);
       })
     })
-    xdescribe('updateRoutine', () => {
+    describe('updateRoutine', () => {
       let queriedRoutine;
       beforeAll(async() => {
         routineToCreateAndUpdate = await updateRoutine({id: routineToCreateAndUpdate.id, isPublic: false, name: 'Arms Day', goal: 'Do all workouts that work those arms!'});
@@ -281,7 +281,7 @@ xdescribe('Database', () => {
       })
       
     })
-    xdescribe('destroyRoutine', () => {
+    describe('destroyRoutine', () => {
       it('removes routine from database', async () => {
         await destroyRoutine(routineToCreateAndUpdate.id);
         const {rows: [routine]} = await client.query(`
