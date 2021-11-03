@@ -15,7 +15,7 @@ const { rebuildDB } = require('../db/seedData');
 const { getUserById, createActivity, getPublicRoutinesByUser, getPublicRoutinesByActivity, getAllPublicRoutines, getRoutineById, createRoutine, getRoutineActivityById } = require('../db');
 const client = require('../db/client')
 
-xdescribe('API', () => {
+describe('API', () => {
   let token, registeredUser;
   let routineActivityToCreateAndUpdate = {routineId: 4, activityId: 8, count: 20, duration: 300};
   beforeAll(async() => {
@@ -231,7 +231,7 @@ xdescribe('API', () => {
       });
     });
   });
-  describe('routine_activities', () => {
+  xdescribe('routine_activities', () => {
     let newRoutineActivityData = {routineId: 3, activityId: 8, count: 25, duration: 200};
     describe('PATCH /routine_activities/:routineActivityId (**)', () => {
       it('Updates the count or duration on the routine activity', async () => {
