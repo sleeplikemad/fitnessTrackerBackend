@@ -53,7 +53,6 @@ routinesRouter.patch("/:routineId", requireUser, async (req, res, next) => {
 
 routinesRouter.delete("/:routineId", requireUser, async (req, res, next) => {
   const id = req.params.routineId;
-
   try {
     const newRoutine = await destroyRoutine(id);
 
@@ -64,13 +63,16 @@ routinesRouter.delete("/:routineId", requireUser, async (req, res, next) => {
 });
 
 routinesRouter.post("/:routineId/activities", requireUser, async (req, res, next) => {
-  const { activityId, count, duration } = req.body;
+  const {routineId, activityId, count, duration } = req.body;
   const id = req.params.routineId;
 
   try {
-    const newRoutineActivity = await addActivityToRoutine({ id, activityId, count, duration });
-    res.send(newRoutineActivity);
-    console.log("ra: ", newRoutineActivity)
+    const newRoutineActivity = await addActivityToRoutine({ routineId: id, activityId, count, duration });
+    if(!newRoutineActivity) {
+      res.status(500).send(err)
+    }
+    else 
+      res.send(newRoutineActivity);
   } catch (error) {
     next(error);
   }

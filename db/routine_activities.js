@@ -19,7 +19,6 @@ async function addActivityToRoutine({
         `,
       [routineId, activityId, count, duration]
     );
-
     return routineActivity;
   } catch (error) {
     throw error;
@@ -28,7 +27,7 @@ async function addActivityToRoutine({
 
 async function getRoutineActivityById(id) {
   try {
-    const { rows: rActivities } = await client.query(
+    const { rows: [rActivities] } = await client.query(
       `
           SELECT * 
           FROM routine_activities 
