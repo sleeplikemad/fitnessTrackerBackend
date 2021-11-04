@@ -8,6 +8,8 @@ const {JWT_SECRET = "neverTell"} = process.env
 // attach other routers from files in this api directory (users, activities...)
 const userRouter = require("./users");
 const routinesRouter = require("./routines")
+const activitiesRouter = require("./activities")
+const routineActivitiesRouter = require("./routine_activities")
 
 const {
     getUserById,
@@ -53,7 +55,8 @@ apiRouter.use(async (req, res, next) => {
 
   apiRouter.use('/users', userRouter);
   apiRouter.use('/routines', routinesRouter);
-
+  apiRouter.use('/activities', activitiesRouter);
+  apiRouter.use('/routine_activities', routineActivitiesRouter)
 // export the api router
 module.exports = apiRouter
 

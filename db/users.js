@@ -24,7 +24,6 @@ async function getUser({username, password}){
         SELECT * FROM users
         WHERE username = $1;
         `, [username]);
-    console.log("USER", user.password)
     if (user.password !== password){
         return
     }
